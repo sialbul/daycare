@@ -2,10 +2,12 @@ const admin = require('firebase-admin');
 const functions = require('firebase-functions');
 const app = require('express')();
 
+require("dotenv").config();
+
 admin.initializeApp();
 
 const config = {
-    apiKey: process.env.FIREBASE_APP_APP_ID,
+    apiKey: process.env.FIREBASE_APP_ID,
     authDomain: "daycare-43ca0.firebaseapp.com",
     databaseURL: "https://daycare-43ca0.firebaseio.com",
     projectId: "daycare-43ca0",
@@ -20,33 +22,33 @@ firebase.initializeApp(config);
 
 const db = admin.firestore();
 
-app.get('/students', (req, res) => {
-    db.collection('students')
+app.get('/warnings', (req, res) => {
+    db.collection('warnings')
         .orderBy('createdAt', 'desc')
         .get()
         .then((data) => {
-            let students = [];
+            let warnings = [];
             data.forEach((doc) => {
-                students.push({
-                    studentId: doc.id,
+                warnings.push({
+                    warningId: doc.id,
                     body: doc.data().body,
                     userHandle: doc.data().userHandle,
                     createdAt: doc.data().createdAt
                 });
             });
-            return res.json(students);
+            return res.json(warnings);
         })
         .catch((err) => console.error(err));
 });
 
-app.post('/student', (req, res) => {
-    const newStudent = {
+app.post('/warning', (req, res) => {
+    const newWarning = {
         body: req.body.body,
         userHandle: req.body.userHandle,
         createdAt: new Date().toISOString()
     };
-    db.collection('students')
-        .add(newStudent)
+    db.collection('warnings')
+        .add(newWarning)
         .then(doc => {
             res.json({ message: `document ${doc.id} created successfully` });
         })
@@ -58,7 +60,7 @@ app.post('/student', (req, res) => {
 
 //signup route
 app.post('/signup', (req, res) => {
-    const newStudent = {
+    const newUser = {
         email: req.body.email,
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
@@ -66,9 +68,9 @@ app.post('/signup', (req, res) => {
     };
 
     //validate data
-    let token, studentId;
+    let token, userId;
 
-    db.doc(`/users/${newStudent.handle}`).get()
+    db.doc(`/users/${newUser.handle}`).get()
         .then(doc => {
             if (doc.exist) {
                 return res.status(400).json({
@@ -76,23 +78,23 @@ app.post('/signup', (req, res) => {
                 });
             } else {
                 return firebase
-                    .auth().createUserWithEmailAndPassword(newStudent.email, newStudent.password)
+                    .auth().createUserWithEmailAndPassword(newUser.email, newUser.password)
 
             }
         })
         .then(data => {
-            studentId = data.user.uid;
+            userId = data.user.uid;
             return data.user.getIdToken()
         })
         .then((idToken) => {
             token = idToken;
             const userCredentials = {
-                handle: newStudent.handle,
-                email: newStudent.email,
+                handle: newUser.handle,
+                email: newUser.email,
                 createdAt: new Date().toISOString(),
-                studentId
+                userId
             };
-            return db.doc(`/users/${newStudent.handle}`).set(userCredentials);
+            return db.doc(`/users/${newUser.handle}`).set(userCredentials);
         })
         .then(() => {
             return res.status(201).json({ token });

@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/sialbul/daycare#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "firebase": "^8.0.1"
   }
 }
