@@ -5,7 +5,7 @@ const app = require('express')();
 admin.initializeApp();
 
 const config = {
-    apiKey: "AIzaSyBE9DPg7VaW5Pi_tclKBvcf8Rqg494vaFQ",
+    apiKey: process.env.FIREBASE_APP_APP_ID,
     authDomain: "daycare-43ca0.firebaseapp.com",
     databaseURL: "https://daycare-43ca0.firebaseio.com",
     projectId: "daycare-43ca0",
