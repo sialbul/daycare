@@ -1,0 +1,15 @@
++ eslint-plugin-import@2.22.1
++ eslint-plugin-react@7.22.0
++ eslint-plugin-react-hooks@4.2.0
++ eslint-plugin-node@11.1.0
++ eslint-config-standard@16.0.2
++ eslint-plugin-standard@5.0.0
++ eslint-plugin-promise@4.2.1
++ eslint@6.8.0
+added 141 packages from 67 contributors and audited 643 packages in 11.632s
+
+45 packages are looking for funding
+  run `npm fund` for details
+
+found 6 low severity vulnerabilities
+  run `npm audit fix` to fix them, or `npm audit` for details
