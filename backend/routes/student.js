@@ -2,18 +2,12 @@ const router = require('express').Router();
 let Student = require('../models/student.model');
 const multer = require('multer');
 
-
-// const upload = multer({ dest: 'uploads/' });
-
-
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads/');
     },
     filename: function(req, file, cb) {
-        cb(null, new Date().toISOString().replace(/:/g, '-')
-
-            +
+        cb(null, new Date().toISOString().replace(/:/g, '-') +
             file.originalname);
     }
 });
@@ -48,10 +42,10 @@ router.route('/add').post(upload.single('studentImage'), (req, res) => {
     const studentname = req.body.studentname;
     const gender = req.body.gender;
     const birthdate = Date.parse(req.body.birthdate);
-    // const studentImage = req.file.path;
+    const studentImage = req.file.path;
 
 
-    const newStudent = new Student({ studentname, gender, birthdate });
+    const newStudent = new Student({ studentname, gender, birthdate, studentImage });
 
     newStudent.save()
         .then(() => res.json('Student added!'))
