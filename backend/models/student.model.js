@@ -3,13 +3,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const studentSchema = new Schema({
-    username: { type: String, required: true },
-    description: { type: String, required: true },
-    duration: { type: Number, required: true },
-    date: { type: Date, required: true },
+    studentname: { type: String, required: true },
+    gender: { type: String, required: true },
+    birthdate: { type: Date, required: true }
 }, {
     timestamps: true,
 });
 
-const Student = mongoose.model('Student', adminSchema);
+const Student = mongoose.model('Student', studentSchema);
 module.exports = Student;
