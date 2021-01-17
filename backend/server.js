@@ -23,6 +23,8 @@ const studentRouter = require('./routes/student');
 
 app.use('/admin', adminRouter);
 app.use('/student', studentRouter);
+app.use('/uploads', express.static('uploads'));
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
