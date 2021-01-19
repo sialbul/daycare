@@ -2,6 +2,8 @@ const router = require('express').Router();
 let Student = require('../models/student.model');
 const multer = require('multer');
 
+
+//upload an image-start
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         cb(null, './uploads/');
@@ -29,7 +31,7 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-
+//upload an image -end
 router.route('/').get((req, res) => {
     Student.find()
         .then(students => res.json(students))
