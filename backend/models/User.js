@@ -8,7 +8,6 @@ class User {
         this.user_name = user_name;
         this.password = password;
         this.access_id = "1";
-
     }
     save() {
         let sql = `INSERT INTO users (first_name, last_name, email, user_name, password, access_id) VALUES(
@@ -16,7 +15,6 @@ class User {
     )`;
         return con.execute(sql);
     }
-
 }
 
 module.exports = User;
